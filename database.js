@@ -271,7 +271,7 @@ function getProducts() {
     return products
 }
 
-function getUserById(id) {
+function getProductById(id) {
     return products.find(p => p.id === id)
 }
 
