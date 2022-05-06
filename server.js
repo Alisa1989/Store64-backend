@@ -1,19 +1,19 @@
-const express = require("express")
-const db = require("./database")
-const server = express()
+const express = require("express");
+const db = require("./products/products-model");
+const server = express();
 
 server.use(express.json())
 
 server.get("/", (req, res) => {
-    res.json({message: "Hello, World"})
+    res.json({message: "Store64 API"})
 })
 
-server.get("products", (req, res) => {
+server.get("/products", (req, res) => {
     const products = db.getProducts()
     res.json(products)
 })
 
-server.get("/prioducts/:id", (req, res) => {
+server.get("/products/:id", (req, res) => {
     const id = req.params.id
     const product = db.getProductById(id)
 
