@@ -10,4 +10,12 @@ server.get("/", (req, res) => {
     res.json({message: "Store64 API"})
 })
 
+server.use((err, req, res, next) => {
+    console.log(err)
+
+    res.status(500).json({
+        message: "Something went wrong, please try again later"
+    })
+})
+
 module.exports = server
