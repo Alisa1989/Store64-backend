@@ -1,4 +1,4 @@
-const products = require("../database").products;
+let products = require("../database").products;
 
 
 function getProducts() {
@@ -30,7 +30,7 @@ function updateProduct(id, data) {
 }
 
 function deleteProduct(id) {
-	users = users.filter(u => u.id != id)
+	products = products.filter(u => u.id != id)
 }
 
 module.exports = {
