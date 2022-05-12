@@ -1,5 +1,7 @@
 const server = require("./server")
 
-server.listen(8080, () => {
+const port = cross.env.port || 4000;
+
+server.listen(port, () => {
     console.log("server started")
 })
