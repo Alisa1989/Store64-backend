@@ -1,9 +1,9 @@
 const productsModel = require("../products/products-model");
 
 function checkProductID() {
-  return (req, res, next) => {
-    Promise.resolve(productsModel.getProductById(req.params.id))
-      .then((product) => {
+  return async (req, res, next) => {
+      try {
+        const product = await Promise.resolve(productsModel.getProductById(req.params.id))
         if (product) {
           req.product = product;
           next();
@@ -12,13 +12,12 @@ function checkProductID() {
             message: "Product not found",
           });
         }
-      })
-      .catch((error) => {
+    } catch(err) {
         console.log(error);
         resstatus(500).json({
           message: "Error retrieving the product",
-        });
-      });
+        })
+    }        
   };
 }
 
