@@ -11,7 +11,7 @@ function getProductById(id) {
 
 function createProduct(data) {
     const payload = {
-        id: String(products.length + 1),
+        id: products.length + 1,
         ...data
     }
 
