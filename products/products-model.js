@@ -1,43 +1,39 @@
-let products = require("../database").products;
+let db = require("../data/config");
 
+function getProducts(query = {}) {
+  const { page = 1, limit = 100, sortBy = "id", sortDir = "asc" } = query;
+  const offset = limit * (page - 1);
 
-function getProducts() {
-    return products
+  return db("products")
+    .orderBy(sortBy, sortDir)
+    .limit(limit)
+    .offset(offset)
+    .select();
 }
 
 function getProductById(id) {
-    return products.find(p => p.id == id)
+  return db("products").where({ id }).first();
 }
 
-function createProduct(data) {
-    const payload = {
-        id: products.length + 1,
-        ...data
-    }
-
-    products.push(payload)
-    return payload
+async function createProduct(data) {
+  const [id] = await db("products").insert(data);
+  return getProductById(id);
 }
 
-function updateProduct(id, data) {
-    const index = products.findIndex(p => p.id == id)
-    products[index] = {
-        ...products[index],
-        ...data
-    }
+async function updateProduct(id, changes) {
+  await db("products").where({ id }).update(changes);
 
-    return products[index]
+  return getProductById(id);
 }
 
 function deleteProduct(id) {
-	products = products.filter(u => u.id != id)
+  return db("products").where({ id }).del();
 }
 
 module.exports = {
-    getProducts,
-    getProductById,
-    createProduct,
-    updateProduct,
-    deleteProduct
-}
-
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
