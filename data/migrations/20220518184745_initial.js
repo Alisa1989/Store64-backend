@@ -33,6 +33,7 @@ exports.up = async function(knex) {
         table.integer("customerID").notNull().references("id").inTable("customers")
         table.integer("productID").notNull().references("id").inTable("products")
         table.integer("quantity")
+        table.integer("sellerID").notNull().references("id").inTable("sellers")
         table.date("datePlaced").defaultTo(knex.raw("current_date"))
     })
 
@@ -40,6 +41,7 @@ exports.up = async function(knex) {
         table.integer("customerID").notNull().references("id").inTable("customers")
         table.integer("productID").notNull().references("id").inTable("products")
         table.integer("quantity")
+        table.integer("sellerID").notNull().references("id").inTable("sellers")
         table.primary(["customerID", "productID"])
     })
 };

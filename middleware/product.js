@@ -3,7 +3,7 @@ const productsModel = require("../products/products-model");
 function checkProductID() {
   return async (req, res, next) => {
       try {
-        const product = await Promise.resolve(productsModel.getProductById(req.params.id))
+        const product = await productsModel.getProductById(req.params.id)
         if (product) {
           req.product = product;
           next();

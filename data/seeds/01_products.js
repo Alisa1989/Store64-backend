@@ -1,6 +1,4 @@
 exports.seed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex("products").truncate();
   await knex("products").insert([
     {
       id: 1,

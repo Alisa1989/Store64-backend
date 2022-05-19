@@ -1,10 +1,12 @@
 const express = require("express");
 const productsRouter = require("./products/products-router")
+const customersRouter = require("./customers/customers-router")
 
 const server = express();
 
 server.use(express.json())
 server.use(productsRouter)
+server.use(customersRouter)
 
 server.get("/", (req, res) => {
     res.json({message: "Store64 API"})
