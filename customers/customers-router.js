@@ -14,7 +14,7 @@ router.get("/customers", async (req, res, next) => {
     }
 });
 
-router.get("/customers/:id", checkCustomerID(), async (req, res) => {
+router.get("/customers/:id", checkCustomerID(), async (req, res, next) => {
     try {
         res.json(req.customer);
     }

@@ -14,7 +14,7 @@ router.get("/products", async (req, res, next) => {
     }
 });
 
-router.get("/products/:id", checkProductID(), async (req, res) => {
+router.get("/products/:id", checkProductID(), async (req, res, next) => {
     try {
         res.json(req.product);
     }

@@ -1,12 +1,10 @@
 exports.seed = async function (knex) {
     await knex("sellers").insert([
         {
-            firstName: "Frank",
-            lastName: "Sinatra",
+            companyName: "sell4less",
         },
         {
-            firstName: "Peter",
-            lastName: "Griffin",
+            companyName: "JoyOfSelling",
         },
     ]);
 };

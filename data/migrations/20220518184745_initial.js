@@ -22,26 +22,25 @@ exports.up = async function(knex) {
 
     await knex.schema.createTable("sellers", (table) => {
         table.increments("id")
-        table.text("firstName").notNull()
-        table.text("lastName").notNull()
+        table.text("companyName").notNull()
         table.float("rating").defaultTo(0)
         table.integer("numberReviews").defaultTo(0)
     })
 
     await knex.schema.createTable("orders", (table) => {
         table.increments("id")
-        table.integer("customerID").notNull().references("id").inTable("customers")
-        table.integer("productID").notNull().references("id").inTable("products")
+        table.integer("customerID").notNull().references("id").inTable("customers").onDelete("CASCADE").onUpdate("CASCADE")
+        table.integer("productID").notNull().references("id").inTable("products").onDelete("CASCADE").onUpdate("CASCADE")
         table.integer("quantity")
-        table.integer("sellerID").notNull().references("id").inTable("sellers")
+        table.integer("sellerID").notNull().references("id").inTable("sellers").onDelete("CASCADE").onUpdate("CASCADE")
         table.date("datePlaced").defaultTo(knex.raw("current_date"))
     })
 
     await knex.schema.createTable("carts", (table) => {
-        table.integer("customerID").notNull().references("id").inTable("customers")
-        table.integer("productID").notNull().references("id").inTable("products")
+        table.integer("customerID").notNull().references("id").inTable("customers").onDelete("CASCADE").onUpdate("CASCADE")
+        table.integer("productID").notNull().references("id").inTable("products").onDelete("CASCADE").onUpdate("CASCADE")
         table.integer("quantity")
-        table.integer("sellerID").notNull().references("id").inTable("sellers")
+        table.integer("sellerID").notNull().references("id").inTable("sellers").onDelete("CASCADE").onUpdate("CASCADE")
         table.primary(["customerID", "productID"])
     })
 };
