@@ -11,6 +11,10 @@ function getCustomers(query = {}) {
     .select();
 }
 
+function getCustomerBy(filter) {
+  return db("customers").select("id", "email", "password").where(filter)
+}
+
 function getCustomerById(id) {
   return db("customers").where({ id }).first();
 }
@@ -32,6 +36,7 @@ function deleteCustomer(id) {
 
 module.exports = {
   getCustomers,
+  getCustomerBy,
   getCustomerById,
   createCustomer,
   updateCustomer,

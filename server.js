@@ -1,11 +1,25 @@
 const express = require("express");
+const session = require("express-session")
+const KnexSessionStore = require("connect-session-knex")(session)
 const productsRouter = require("./products/products-router")
 const customersRouter = require("./customers/customers-router")
 const cartsRouter = require("./carts/carts-router")
+const db = require("./data/config")
 
 const server = express();
 
 server.use(express.json())
+server.use(session({
+	resave: false, //avoids creating sessions that haven't changed
+	saveUninitialized: false, // GDPR laws against setting cookies automatically
+	secret: "keep it secret, keep it safe", // used to cryptographically sign the cookie
+	// store the session data in the database rather than in memory
+	store: new KnexSessionStore({
+		knex: db, // pass configured instance of knex
+		createtable: true, // if the session table does not exist, it will create it automatically
+	}),
+}))
+
 server.use(productsRouter)
 server.use(customersRouter)
 server.use(cartsRouter)
