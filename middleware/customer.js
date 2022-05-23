@@ -1,4 +1,6 @@
 const customersModel = require("../customers/customers-model");
+const bcrypt = require("bcryptjs")
+
 
 function checkCustomerID() {
   return async (req, res, next) => {
@@ -24,6 +26,8 @@ function checkCustomerID() {
 function checkCompleteCustomerBody() {
   return (req, res, next) => {
     if (
+      !req.body.email ||
+      !req.body.password ||
       !req.body.firstName ||
       !req.body.lastName ||
       !req.body.dateOfBirth ||
@@ -37,7 +41,24 @@ function checkCompleteCustomerBody() {
   };
 }
 
+function restrictCustomer() {
+	return async (req, res, next) => {
+		try{
+			if (!req.session || !req.session.customer) {
+				return res.status(403).json({
+					message: "You don't have access"
+				})
+			}
+			next()
+
+		} catch(err){
+			next(err)
+		}
+	}
+};
+
 module.exports = {
   checkCustomerID,
   checkCompleteCustomerBody,
+  restrictCustomer
 };

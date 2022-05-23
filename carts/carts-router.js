@@ -1,6 +1,6 @@
 const express = require("express");
 const db = require("./carts-model");
-const {checkCustomerID } = require("../middleware/customer");
+const {checkCustomerID, restrictCustomer } = require("../middleware/customer");
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.get("/carts", async (req, res, next) => {
 });
 
 //should also be checking if the cart with the cust id exists
-router.get("/carts/customers/:id", checkCustomerID(), async (req, res, next) => {
+router.get("/carts/customers/:id", restrictCustomer(), checkCustomerID(), async (req, res, next) => {
     try {
         const cart = await db.getCartByCustomerId(req.customer.id);
         res.json(cart);
