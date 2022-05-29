@@ -8,6 +8,10 @@ const db = require("./data/config")
 
 const server = express();
 
+//This gets rid of cors error message so i can send request from a localhost to another
+var cors = require('cors');
+server.use(cors({origin: 'http://localhost:3000'}));
+
 server.use(express.json())
 server.use(session({
 	resave: false, //avoids creating sessions that haven't changed
