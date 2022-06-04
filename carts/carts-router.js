@@ -14,8 +14,7 @@ router.get("/carts", async (req, res, next) => {
     }
 });
 
-//should also be checking if the cart with the cust id exists
-router.get("/carts/customers/:id", restrictCustomer(), checkCustomerID(), async (req, res, next) => {
+router.get("/carts/customers/:id", checkCustomerID(), async (req, res, next) => {
     try {
         const cart = await db.getCartByCustomerId(req.customer.id);
         res.json(cart);
@@ -24,16 +23,16 @@ router.get("/carts/customers/:id", restrictCustomer(), checkCustomerID(), async 
         next(err)
     }
 });
-
-// router.post("/customers", checkCompleteCustomerBody(), async (req, res, next) => {
-//     try {
-//         const customer = await db.createCustomer(req.body)
-//         res.status(201).json(customer);
-//     }
-//     catch(err) {
-//         next(err)
-//     }
-// });
+//Create Cart Entry 
+router.post("/carts/customers/:id", checkCompleteCartBody(), checkCustomerID(), async (req, res, next) => {
+    try {
+        const cartEntry = await db.getCartEntry(req.params.customerID, req.params.productID)
+        res.status(201).json(cartEntry);
+    }
+    catch(err) {
+        next(err)
+    }
+});
 
 // router.put("/customers/:id", checkCompleteCustomerBody(), checkCustomerID(), async (req, res, next) => {
 //     try {
