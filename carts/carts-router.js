@@ -1,6 +1,8 @@
 const express = require("express");
 const db = require("./carts-model");
 const {checkCustomerID, restrictCustomer } = require("../middleware/customer");
+const { checkCompleteCartBody, checkCartEntry } = require("../middleware/cart");
+const { checkProductID} = require("../middleware/product");
 
 const router = express.Router();
 
@@ -23,10 +25,21 @@ router.get("/carts/customers/:id", checkCustomerID(), async (req, res, next) => 
         next(err)
     }
 });
-//Create Cart Entry 
-router.post("/carts/customers/:id", checkCompleteCartBody(), checkCustomerID(), async (req, res, next) => {
+//Get single cart entry
+router.get("/carts/customers/:id/products/:pid", checkCustomerID(), checkProductID(), async (req, res, next) => {
     try {
-        const cartEntry = await db.getCartEntry(req.params.customerID, req.params.productID)
+        const cartEntry = await db.getCartEntry(req.customer.id, req.params.pid);
+        res.json(cartEntry);
+    }
+    catch(err) {
+        next(err)
+    }
+});
+//Create Cart Entry 
+router.post("/carts/customers", checkCompleteCartBody(), async (req, res, next) => {
+    checkCustomerID(req.body.customerID);
+    try {
+        const cartEntry = await db.createCartEntry(req.body)
         res.status(201).json(cartEntry);
     }
     catch(err) {

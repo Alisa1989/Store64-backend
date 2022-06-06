@@ -22,24 +22,25 @@ function getCartByCustomerId(id) {
   "ca.quantity as quantity", "pr.price as price", "se.companyName as seller")
 }
 
-async function getCartEntry(customerID, productID) {
-  return db("cart").where("customerID", customerID).andWhere("productID", productID);
+async function getCartEntry(custID, prodID) {
+  return db("carts").where({customerID: custID, productID: prodID});
 
 }
 
 async function createCartEntry(data){
-  const [customerID, productID] = await db("cart").insert(data);
+  console.log("data", data);
+  const [customerID, productID] = await db("carts").insert(data);
   return getCartEntry(customerID, productID);
 }
 
 async function updateCartEntryQuantity(customerID, productID, changes) {
-  await db("cart").where("customerID", customerID).andWhere("productID", productID).update(changes);
+  await db("carts").where("customerID", customerID).andWhere("productID", productID).update(changes);
 
   return getCartByCustomerById(customerID);
 }
 
 function deleteCartEntry(customerID, productID) {
-  return db("cart").where("customerID", customerID).andWhere("productID", productID).del();
+  return db("carts").where("customerID", customerID).andWhere("productID", productID).del();
 }
 
 module.exports = {
