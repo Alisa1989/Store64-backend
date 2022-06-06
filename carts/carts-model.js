@@ -18,29 +18,36 @@ function getCartByCustomerId(id) {
   .join("sellers as se", "se.id", "ca.sellerID")
   .where("customerID", id )
   .select("cu.firstName as customerFN", "cu.lastName as customerLN", 
-  "pr.title as productTitle", "pr.image as productImage", 
+  "pr.id as id", "pr.title as title", "pr.image as image", 
   "ca.quantity as quantity", "pr.price as price", "se.companyName as seller")
 }
 
-// async function createCustomer(data) {
-//   const [id] = await db("customers").insert(data);
-//   return getCustomerById(id);
-// }
+async function getCartEntry(custID, prodID) {
+  return db("carts").where({customerID: custID, productID: prodID});
 
-// async function updateCustomer(id, changes) {
-//   await db("customers").where({ id }).update(changes);
+}
 
-//   return getCustomerById(id);
-// }
+async function createCartEntry(data){
+  console.log("data", data);
+  const [customerID, productID] = await db("carts").insert(data);
+  return getCartEntry(customerID, productID);
+}
 
-// function deleteCustomer(id) {
-//   return db("customers").where({ id }).del();
-// }
+async function updateCartEntryQuantity(customerID, productID, changes) {
+  await db("carts").where("customerID", customerID).andWhere("productID", productID).update(changes);
+
+  return getCartByCustomerById(customerID);
+}
+
+function deleteCartEntry(customerID, productID) {
+  return db("carts").where("customerID", customerID).andWhere("productID", productID).del();
+}
 
 module.exports = {
   getCarts,
   getCartByCustomerId,
-//   createCustomer,
-//   updateCustomer,
-//   deleteCustomer,
+  getCartEntry,
+  createCartEntry,
+  updateCartEntryQuantity,
+  deleteCartEntry,
 };

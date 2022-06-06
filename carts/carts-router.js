@@ -1,6 +1,8 @@
 const express = require("express");
 const db = require("./carts-model");
 const {checkCustomerID, restrictCustomer } = require("../middleware/customer");
+const { checkCompleteCartBody, checkCartEntry } = require("../middleware/cart");
+const { checkProductID} = require("../middleware/product");
 
 const router = express.Router();
 
@@ -14,8 +16,7 @@ router.get("/carts", async (req, res, next) => {
     }
 });
 
-//should also be checking if the cart with the cust id exists
-router.get("/carts/customers/:id", restrictCustomer(), checkCustomerID(), async (req, res, next) => {
+router.get("/carts/customers/:id", checkCustomerID(), async (req, res, next) => {
     try {
         const cart = await db.getCartByCustomerId(req.customer.id);
         res.json(cart);
@@ -24,16 +25,27 @@ router.get("/carts/customers/:id", restrictCustomer(), checkCustomerID(), async 
         next(err)
     }
 });
-
-// router.post("/customers", checkCompleteCustomerBody(), async (req, res, next) => {
-//     try {
-//         const customer = await db.createCustomer(req.body)
-//         res.status(201).json(customer);
-//     }
-//     catch(err) {
-//         next(err)
-//     }
-// });
+//Get single cart entry
+router.get("/carts/customers/:id/products/:pid", checkCustomerID(), checkProductID(), async (req, res, next) => {
+    try {
+        const cartEntry = await db.getCartEntry(req.customer.id, req.params.pid);
+        res.json(cartEntry);
+    }
+    catch(err) {
+        next(err)
+    }
+});
+//Create Cart Entry 
+router.post("/carts/customers", checkCompleteCartBody(), async (req, res, next) => {
+    checkCustomerID(req.body.customerID);
+    try {
+        const cartEntry = await db.createCartEntry(req.body)
+        res.status(201).json(cartEntry);
+    }
+    catch(err) {
+        next(err)
+    }
+});
 
 // router.put("/customers/:id", checkCompleteCustomerBody(), checkCustomerID(), async (req, res, next) => {
 //     try {

@@ -12,7 +12,7 @@ function getCustomers(query = {}) {
 }
 
 function getCustomerBy(filter) {
-  return db("customers").select("id", "email", "password").where(filter)
+  return db("customers").where(filter)
 }
 
 function getCustomerById(id) {

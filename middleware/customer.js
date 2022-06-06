@@ -2,10 +2,10 @@ const customersModel = require("../customers/customers-model");
 const bcrypt = require("bcryptjs")
 
 
-function checkCustomerID() {
+function checkCustomerID(passedID) {
   return async (req, res, next) => {
       try {
-        const customer = await customersModel.getCustomerById(req.params.id)
+        const customer = await customersModel.getCustomerById(passedID || req.params.id)
         if (customer) {
           req.customer = customer;
           next();
@@ -15,8 +15,7 @@ function checkCustomerID() {
           });
         }
     } catch(err) {
-        console.log(error);
-        resstatus(500).json({
+        res.status(500).json({
           message: "Error retrieving the customer",
         })
     }        

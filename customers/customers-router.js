@@ -23,6 +23,7 @@ router.post("/customers/login", async (req, res, next) => {
 
 		res.json({
 			message: `Welcome ${customer.firstName}!`,
+            customer
 		})
 	} catch(err) {
 		next(err)

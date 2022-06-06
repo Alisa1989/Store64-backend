@@ -33,7 +33,7 @@ exports.up = async function(knex) {
         table.increments("id")
         table.integer("customerID").notNull().references("id").inTable("customers").onDelete("CASCADE").onUpdate("CASCADE")
         table.integer("productID").notNull().references("id").inTable("products").onDelete("CASCADE").onUpdate("CASCADE")
-        table.integer("quantity")
+        table.integer("quantity").defaultTo(1)
         table.integer("sellerID").notNull().references("id").inTable("sellers").onDelete("CASCADE").onUpdate("CASCADE")
         table.date("datePlaced").defaultTo(knex.raw("current_date"))
     })
@@ -41,7 +41,7 @@ exports.up = async function(knex) {
     await knex.schema.createTable("carts", (table) => {
         table.integer("customerID").notNull().references("id").inTable("customers").onDelete("CASCADE").onUpdate("CASCADE")
         table.integer("productID").notNull().references("id").inTable("products").onDelete("CASCADE").onUpdate("CASCADE")
-        table.integer("quantity")
+        table.integer("quantity").defaultTo(1)
         table.integer("sellerID").notNull().references("id").inTable("sellers").onDelete("CASCADE").onUpdate("CASCADE")
         table.primary(["customerID", "productID"])
     })
