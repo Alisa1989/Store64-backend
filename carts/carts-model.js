@@ -23,7 +23,8 @@ function getCartByCustomerId(id) {
 }
 
 async function getCartEntry(custID, prodID) {
-  return db("carts").where({customerID: custID, productID: prodID});
+  // return db("carts").where({customerID: custID, productID: prodID});
+  return db("carts").where("customerID", custID).andWhere("productID", prodID);
 
 }
 

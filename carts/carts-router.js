@@ -29,6 +29,11 @@ router.get("/carts/customers/:id", checkCustomerID(), async (req, res, next) => 
 router.get("/carts/customers/:id/products/:pid", checkCustomerID(), checkProductID(), async (req, res, next) => {
     try {
         const cartEntry = await db.getCartEntry(req.customer.id, req.params.pid);
+        if (cartEntry.length == 0 ) {
+            res.status(404).json({
+                message: "Cart entry not found"
+            });
+        } 
         res.json(cartEntry);
     }
     catch(err) {
@@ -36,31 +41,51 @@ router.get("/carts/customers/:id/products/:pid", checkCustomerID(), checkProduct
     }
 });
 //Create Cart Entry 
+//Does create record but creates an error
 router.post("/carts/customers", checkCompleteCartBody(), async (req, res, next) => {
     checkCustomerID(req.body.customerID);
+
+    const {productID, customerID} = req.body
+    const exists = await db.getCartEntry(productID, customerID);
+
+    if(exists.length > 0) {
+        res.status(409).json({
+            message: "An account with those credentials already exists",
+        });
+    }
+
     try {
-        const cartEntry = await db.createCartEntry(req.body)
+        const cartEntry = await db.createCartEntry(req.body);
         res.status(201).json(cartEntry);
+    }
+    catch(err) {
+        console.log(err)
+        next(err)
+    }
+});
+//UPDATE quantity from cart entry
+//works but gives back an error
+router.put("/carts/customers/:id/products/:pid", checkProductID(), checkCustomerID(), async (req, res, next) => {
+    try {
+        const cartEntry = await db.updateCartEntryQuantity(req.params.id, req.params.pid, req.body)
+        res.json(cartEntry);
+    }
+    catch(err) {
+        console.log(err);
+        next(err)
+    }
+});
+
+router.delete("/carts/customers/:id/products/:pid", checkCustomerID(), checkProductID(), async (req, res, next) => {
+    try {
+        await db.deleteCartEntry(req.params.id, req.params.pid)
+        res.status(200).json({
+          message: "Cart Entry has been deleted",
+        });
     }
     catch(err) {
         next(err)
     }
 });
-
-// router.put("/customers/:id", checkCompleteCustomerBody(), checkCustomerID(), async (req, res, next) => {
-//     try {
-//         const customer = await db.updateCustomer(req.params.id, req.body)
-//         res.json(customer);
-//     }
-//     catch(err) {
-//         next(err)
-//     }
-// });
-
-// router.delete("/customers/:id", checkCustomerID(), async (req, res, next) => {
-//     res.status(500).json({
-//         message: "Customers cannot be deleted",
-//     });
-// });
 
 module.exports = router;
