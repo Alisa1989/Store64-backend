@@ -44,6 +44,10 @@ function deleteCartEntry(customerID, productID) {
   return db("carts").where("customerID", customerID).andWhere("productID", productID).del();
 }
 
+function deleteCart(customerID) {
+  return db("carts").where("customerID", customerID).del();
+}
+
 module.exports = {
   getCarts,
   getCartByCustomerId,
