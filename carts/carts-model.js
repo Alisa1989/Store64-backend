@@ -23,7 +23,8 @@ function getCartByCustomerId(id) {
 }
 
 async function getCartEntry(custID, prodID) {
-  return db("carts").where({customerID: custID, productID: prodID});
+  // return db("carts").where({customerID: custID, productID: prodID});
+  return db("carts").where("customerID", custID).andWhere("productID", prodID);
 
 }
 
@@ -43,6 +44,10 @@ function deleteCartEntry(customerID, productID) {
   return db("carts").where("customerID", customerID).andWhere("productID", productID).del();
 }
 
+function deleteCart(customerID) {
+  return db("carts").where("customerID", customerID).del();
+}
+
 module.exports = {
   getCarts,
   getCartByCustomerId,
@@ -50,4 +55,5 @@ module.exports = {
   createCartEntry,
   updateCartEntryQuantity,
   deleteCartEntry,
+  deleteCart
 };
