@@ -75,7 +75,7 @@ router.put("/carts/customers/:id/products/:pid", checkProductID(), checkCustomer
         next(err)
     }
 });
-
+//Delete single cart entry
 router.delete("/carts/customers/:id/products/:pid", checkCustomerID(), checkProductID(), async (req, res, next) => {
     try {
         await db.deleteCartEntry(req.params.id, req.params.pid)
@@ -88,4 +88,16 @@ router.delete("/carts/customers/:id/products/:pid", checkCustomerID(), checkProd
     }
 });
 
+//Delete whole cart
+router.delete("/carts/customers/:id", checkCustomerID(), async (req, res, next) => {
+    try {
+        await db.deleteCart(req.params.id)
+        res.status(200).json({
+          message: "Customer Cart",
+        });
+    }
+    catch(err) {
+        next(err)
+    }
+});
 module.exports = router;

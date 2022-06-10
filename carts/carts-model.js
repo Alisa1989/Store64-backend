@@ -55,4 +55,5 @@ module.exports = {
   createCartEntry,
   updateCartEntryQuantity,
   deleteCartEntry,
+  deleteCart
 };
