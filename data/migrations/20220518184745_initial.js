@@ -24,6 +24,7 @@ exports.up = async function(knex) {
 
     await knex.schema.createTable("sellers", (table) => {
         table.increments("id")
+        table.text("email").notNull()
         table.text("companyName").notNull()
         table.float("rating").defaultTo(0)
         table.integer("numberReviews").defaultTo(0)
