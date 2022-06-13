@@ -13,22 +13,27 @@ function getSellers(query = {}) {
     .select();
 }
 
+//get seller by a filter
+function getSellerByFilter( filter ) {
+    return db("sellers").where( filter );
+}
+
 //get seller by id
 function getSellerByID(id) {
-    return db("sellers").where({ id }).first();
+    return db("sellers").where( {id} ).first();
 }
 
 //create seller
 async function createSeller(data) {
-    const[id] = await db("sellers").inser(data);
+    const[id] = await db("sellers").insert(data);
     return getSellerByID(id);
 }
 
 //update seller
-async function updateSeller(id) {
+async function updateSeller(id, changes) {
     await db("sellers").where({ id }).update(changes);
 
-    return getProductById(id);
+    return getSellerById(id);
 }
 
 //delete seller
@@ -39,6 +44,7 @@ function deleteSeller(id) {
 module.exports = {
     getSellers,
     getSellerByID,
+    getSellerByFilter,
     createSeller,
     updateSeller,
     deleteSeller
