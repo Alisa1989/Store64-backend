@@ -14,7 +14,7 @@ exports.up = async function(knex) {
 
     await knex.schema.createTable("customers", (table) => {
         table.increments("id")
-        table.text("email").notNull()
+        table.text("email").notNull().unique()
         table.text("password").notNull()
         table.text("firstName").notNull()
         table.text("lastName").notNull()
@@ -24,8 +24,9 @@ exports.up = async function(knex) {
 
     await knex.schema.createTable("sellers", (table) => {
         table.increments("id")
-        table.text("email").notNull()
-        table.text("companyName").notNull()
+        table.text("email").notNull().unique()
+        table.text("password").notNull()
+        table.text("companyName").notNull().unique()
         table.float("rating").defaultTo(0)
         table.integer("numberReviews").defaultTo(0)
     })

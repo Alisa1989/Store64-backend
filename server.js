@@ -4,6 +4,7 @@ const KnexSessionStore = require("connect-session-knex")(session)
 const productsRouter = require("./products/products-router")
 const customersRouter = require("./customers/customers-router")
 const cartsRouter = require("./carts/carts-router")
+const sellersRouter = require("./sellers/sellers-router")
 const db = require("./data/config")
 
 const server = express();
@@ -27,6 +28,7 @@ server.use(session({
 server.use(productsRouter)
 server.use(customersRouter)
 server.use(cartsRouter)
+server.use(sellersRouter)
 
 server.get("/", (req, res) => {
     res.json({message: "Store64 API"})
