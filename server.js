@@ -13,7 +13,7 @@ const server = express();
 // credentials: truel allows the cookie to be read
 var cors = require('cors');
 // server.use(cors({origin: 'http://localhost:3000', credentials: true}));
-server.use(cors({origin: 'https://store-q1yd6hoou-alex-developer.vercel.app/', credentials: true}));
+server.use(cors({origin: '*', credentials: true}));
 
 server.use(express.json())
 server.use(session({
