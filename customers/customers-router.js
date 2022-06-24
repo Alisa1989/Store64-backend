@@ -5,23 +5,37 @@ const { checkCompleteCustomerBody, checkCustomerID, restrictCustomer } = require
 
 const router = express.Router();
 
+// const rand = () => {
+//     return Math.random().toString(36).substr(2);
+//   };
+  
+// const token = () => {
+//     return rand() + rand();
+// };
+
 router.post("/customers/login", async (req, res, next) => {
     try {
+        console.log("starting process");
         const { email, password } = req.body
         const customer = await db.getCustomerBy({ email }).first()
 
 		const passwordValid = await bcrypt.compare(password, customer ? customer.password : "")
 
         if (!customer || !passwordValid) {
+            console.log("invalid");
+
 			return res.status(401).json({
 				message: "Invalid Credentials",
 			})
 		}
+        console.log("valid");
 		
 		// creates a new session and sends it back to the client
-		req.session.customer = customer
+		req.session.customer = customer;
+        // TODO: Store the customer's ID in a normal cookie
 
 		res.json({
+            // payload: token,
 			message: `Welcome ${customer.firstName}!`,
             customer
 		})

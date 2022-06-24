@@ -10,8 +10,10 @@ const db = require("./data/config")
 const server = express();
 
 //This gets rid of cors error message so i can send request from a localhost to another
+// credentials: truel allows the cookie to be read
 var cors = require('cors');
-server.use(cors({origin: 'http://localhost:3000'}));
+// server.use(cors({origin: 'http://localhost:3000', credentials: true}));
+server.use(cors({origin: '*', credentials: true}));
 
 server.use(express.json())
 server.use(session({
@@ -23,6 +25,7 @@ server.use(session({
 		knex: db, // pass configured instance of knex
 		createtable: true, // if the session table does not exist, it will create it automatically
 	}),
+	
 }))
 
 server.use(productsRouter)
