@@ -1,17 +1,10 @@
 const express = require("express");
 const db = require("./customers-model");
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 const { checkCompleteCustomerBody, checkCustomerID, restrictCustomer } = require("../middleware/customer");
 
 const router = express.Router();
-
-// const rand = () => {
-//     return Math.random().toString(36).substr(2);
-//   };
-  
-// const token = () => {
-//     return rand() + rand();
-// };
 
 router.post("/customers/login", async (req, res, next) => {
     try {
@@ -28,16 +21,20 @@ router.post("/customers/login", async (req, res, next) => {
 				message: "Invalid Credentials",
 			})
 		}
-        console.log("valid");
 		
 		// creates a new session and sends it back to the client
 		req.session.customer = customer;
+
         // TODO: Store the customer's ID in a normal cookie
+        const token = jwt.sign({
+            customerID: customer.id,
+            firstName: customer.firstName
+    }, "keep it secret keep it safe")
 
 		res.json({
-            // payload: token,
+            token: token,
 			message: `Welcome ${customer.firstName}!`,
-            customer
+            // customer
 		})
 	} catch(err) {
 		next(err)
