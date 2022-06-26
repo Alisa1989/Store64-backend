@@ -27,7 +27,7 @@ router.post("/customers/login", async (req, res, next) => {
         const token = jwt.sign({
             customerID: customer.id,
             firstName: customer.firstName
-    }, "keep it secret keep it safe")
+    }, process.env.JWT_SECRET)
 
 		res.json({
             token: token,
