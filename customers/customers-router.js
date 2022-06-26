@@ -15,8 +15,6 @@ router.post("/customers/login", async (req, res, next) => {
 		const passwordValid = await bcrypt.compare(password, customer ? customer.password : "")
 
         if (!customer || !passwordValid) {
-            console.log("invalid");
-
 			return res.status(401).json({
 				message: "Invalid Credentials",
 			})
@@ -24,8 +22,8 @@ router.post("/customers/login", async (req, res, next) => {
 		
 		// creates a new session and sends it back to the client
 		req.session.customer = customer;
-
-        // TODO: Store the customer's ID in a normal cookie
+        console.log("req.sess.cus", req.session.customer)
+        // creates a token and sends it back to client
         const token = jwt.sign({
             customerID: customer.id,
             firstName: customer.firstName
@@ -34,7 +32,6 @@ router.post("/customers/login", async (req, res, next) => {
 		res.json({
             token: token,
 			message: `Welcome ${customer.firstName}!`,
-            // customer
 		})
 	} catch(err) {
 		next(err)

@@ -1,7 +1,6 @@
 const customersModel = require("../customers/customers-model");
 const bcrypt = require("bcryptjs")
 
-
 function checkCustomerID(passedID) {
   return async (req, res, next) => {
       try {
@@ -43,7 +42,8 @@ function checkCompleteCustomerBody() {
 function restrictCustomer() {
 	return async (req, res, next) => {
 		try{
-			if (!req.session || !req.session.customer) {
+      //req.customer is undefined for HTTP client
+			if (!req.sessionID || !req.customer) {
 				return res.status(403).json({
 					message: "You don't have access"
 				})

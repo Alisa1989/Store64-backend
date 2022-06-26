@@ -16,7 +16,7 @@ router.get("/carts", async (req, res, next) => {
     }
 });
 
-router.get("/carts/customers/:id", checkCustomerID(), async (req, res, next) => {
+router.get("/carts/customers/:id", checkCustomerID(), restrictCustomer(), async (req, res, next) => {
     try {
         const cart = await db.getCartByCustomerId(req.customer.id);
         res.json(cart);
