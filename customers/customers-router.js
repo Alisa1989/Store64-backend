@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/customers/login", async (req, res, next) => {
     try {
-        console.log("starting process");
+        console.log("starting process", process.env.JWT_SECRET);
         const { email, password } = req.body
         const customer = await db.getCustomerBy({ email }).first()
 
