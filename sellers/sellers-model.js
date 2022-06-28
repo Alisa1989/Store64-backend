@@ -23,6 +23,11 @@ function getSellerByID(id) {
     return db("sellers").where( {id} ).first();
 }
 
+//get sellers products
+function getSellersProducts(sellerID) {
+    return db("sellersInventory").where( "sellerID", sellerID )
+}
+
 //create seller
 async function createSeller(data) {
     const[id] = await db("sellers").insert(data);
@@ -45,6 +50,7 @@ module.exports = {
     getSellers,
     getSellerByID,
     getSellerByFilter,
+    getSellersProducts,
     createSeller,
     updateSeller,
     deleteSeller
