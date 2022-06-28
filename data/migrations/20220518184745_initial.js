@@ -47,6 +47,13 @@ exports.up = async function(knex) {
         table.integer("sellerID").notNull().references("id").inTable("sellers").onDelete("CASCADE").onUpdate("CASCADE")
         table.primary(["customerID", "productID"])
     })
+
+    await knex.schema.createTable("sellersInventory", (table) => {
+        table.integer("sellerID").notNull().references("id").inTable("sellers").onDelete("CASCADE").onUpdate("CASCADE")
+        table.integer("productID").notNull().references("id").inTable("products").onDelete("CASCADE").onUpdate("CASCADE")
+        table.integer("quantity").defaultTo(1)
+        table.primary(["sellerID", "productID"])
+    })
 };
 
 exports.down = async function(knex) {
@@ -55,4 +62,5 @@ exports.down = async function(knex) {
     await knex.schema.dropTableIfExists("sellers")
     await knex.schema.dropTableIfExists("customers")
     await knex.schema.dropTableIfExists("products")
+    await knex.schema.dropTableIfExists("sellersInventory")
 };

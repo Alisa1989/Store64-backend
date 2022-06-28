@@ -69,6 +69,18 @@ router.get("/sellers/:id", checkSellerID(), async ( req, res, next ) => {
     }
 })
 
+//get sellers products
+router.get("/sellers/:id/products", checkSellerID(), async ( req, res, next ) => {
+    try {
+        console.log("seller", req.seller)
+        const products = await db.getSellersProducts(req.seller.id)
+        res.json(products)
+    }
+    catch {
+        next(err)
+    }
+})
+
 //create seller
 router.post("/sellers", checkCompleteSellerBody(), async( req, res, next ) => {
     try {
