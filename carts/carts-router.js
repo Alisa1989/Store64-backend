@@ -42,7 +42,7 @@ router.get("/carts/customers/:id/products/:pid", checkCustomerID(), checkProduct
 });
 //Create Cart Entry 
 //Does create record but creates an error
-router.post("/carts/customers", checkCompleteCartBody(), async (req, res, next) => {
+router.post("/carts/customers/products", checkCompleteCartBody(), async (req, res, next) => {
     checkCustomerID(req.body.customerID);
 
     const {productID, customerID} = req.body
