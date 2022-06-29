@@ -25,7 +25,9 @@ function getSellerByID(id) {
 
 //get sellers products
 function getSellersProducts(sellerID) {
-    return db("sellersInventory").where( "sellerID", sellerID )
+    return db("sellersInventory as si")
+    .join("products as pr", "pr.id", "si.productID")
+    .where( "sellerID", sellerID )
 }
 
 //create seller
