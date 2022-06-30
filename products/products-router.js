@@ -24,6 +24,8 @@ router.get("/products/:id", checkProductID(), async (req, res, next) => {
 });
 
 router.post("/products", checkCompleteBody(), async (req, res, next) => {
+    //TO DO 
+    //add created product to sellersInventory
     try {
         const product = await db.createProduct(req.body)
         res.status(201).json(product);

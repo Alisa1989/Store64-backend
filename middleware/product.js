@@ -29,7 +29,8 @@ function checkCompleteBody() {
       !req.body.description ||
       !req.body.category ||
       !req.body.image ||
-      !req.body.rating
+      !req.body.rating ||
+      !req.body.sellerID
     ) {
       return res.status(400).json({
         message: "Missing Fields",
