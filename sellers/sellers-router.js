@@ -105,6 +105,9 @@ router.post("/sellers", checkCompleteSellerBody(), async( req, res, next ) => {
     }
 })
 
+//add product to sellersInventory
+
+
 //update seller
 router.put("/sellers/:id", checkCompleteSellerBody(), checkSellerID(), async (req, res, next) => {
     try {
