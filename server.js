@@ -9,6 +9,7 @@ const sellersInventoryRouter = require("./sellersInventory/sellersInv-Router")
 const db = require("./data/config")
 
 const server = express();
+server.use(express.static('data'));
 
 //This gets rid of cors error message so i can send request from a localhost to another
 // credentials: true allows the cookie to be read
