@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node index.js",
+    "start": "node --require dotenv/config index.js",
     "server": "nodemon --require dotenv/config index.js"
   },
   "dependencies": {
