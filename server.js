@@ -21,7 +21,9 @@ server.use(cors({origin: 'http://localhost:3000', credentials: true}));
 // The default express max request limit is 100kb, increase it
 const maxRequestBodySize = '3mb';
 server.use(express.json({limit: maxRequestBodySize}));
-server.use(express.urlencoded({limit: maxRequestBodySize}));
+// server.use(express.urlencoded({limit: maxRequestBodySize}));
+//extended config object key now needs to be explicitly passed
+server.use(express.urlencoded({ extended: true, limit: maxRequestBodySize }));
 
 server.use(express.json())
 server.use(session({
