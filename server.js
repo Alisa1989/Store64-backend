@@ -15,8 +15,8 @@ server.use(express.static('data'));
 //This gets rid of cors error message so i can send request from a localhost to another
 // credentials: true allows the cookie to be read
 var cors = require('cors');
-server.use(cors({origin: 'http://localhost:3000', credentials: true}));
-// server.use(cors({origin: '*', credentials: true}));
+// server.use(cors({origin: 'http://localhost:3000', credentials: true}));
+server.use(cors({origin: '*', credentials: true}));
 
 // The default express max request limit is 100kb, increase it
 const maxRequestBodySize = '3mb';
