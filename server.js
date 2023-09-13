@@ -17,9 +17,8 @@ server.use(express.static('data'));
 var cors = require('cors');
 // server.use(cors({origin: 'http://localhost:3000', credentials: true}));
 // server.use(cors({origin: '*', credentials: true}));
-server.use(cors({origin: ['https://store-g4owis28a-alex-developer.vercel.app', 
-	'https://store-g4owis28a-alex-developer.vercel.app/customer/customerLogin/login'],  
-	credentials: true}));
+
+server.use(cors())
 
 // The default express max request limit is 100kb, increase it
 const maxRequestBodySize = '3mb';
