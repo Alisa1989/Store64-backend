@@ -19,14 +19,6 @@ server.use(express.static('data'));
 // server.use(cors({origin: '*', credentials: true}));
 //server.use(cors({origin: '*', credentials: false}))
 
-server.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-});
-
 // The default express max request limit is 100kb, increase it
 const maxRequestBodySize = '3mb';
 server.use(express.json({limit: maxRequestBodySize}));
