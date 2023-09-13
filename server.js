@@ -11,15 +11,17 @@ const db = require("./data/config")
 const server = express();
 //to serve static files so images can be refereneced
 server.use(express.static('data'));
+var cors = require('cors');
+server.use(cors())
 
 //This gets rid of cors error message so i can send request from a localhost to another
 // credentials: true allows the cookie to be read
-//var cors = require('cors');
+
 // server.use(cors({origin: 'http://localhost:3000', credentials: true}));
 // server.use(cors({origin: '*', credentials: true}));
 //server.use(cors({origin: '*', credentials: false}))
 
-// The default express max request limit is 100kb, increase it
+/* // The default express max request limit is 100kb, increase it
 const maxRequestBodySize = '3mb';
 server.use(express.json({limit: maxRequestBodySize}));
 // server.use(express.urlencoded({limit: maxRequestBodySize}));
@@ -43,18 +45,18 @@ server.use(productsRouter)
 server.use(customersRouter)
 server.use(cartsRouter)
 server.use(sellersRouter)
-server.use(sellersInventoryRouter)
+server.use(sellersInventoryRouter) */
 
 server.get("/", (req, res) => {
     res.json({message: "Store64 API"})
 })
 
-server.use((err, req, res, next) => {
+/* server.use((err, req, res, next) => {
     console.log(err)
 
     res.status(500).json({
         message: "Something went wrong, please try again later"
     })
-})
+}) */
 
 module.exports = server
