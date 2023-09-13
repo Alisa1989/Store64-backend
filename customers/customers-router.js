@@ -29,11 +29,14 @@ router.post("/customers/login", async (req, res, next) => {
             firstName: customer.firstName
     }, process.env.JWT_SECRET)
 
+    console.log('token', token)
+
 		res.json({
             token: token,
 			message: `Welcome ${customer.firstName}!`,
 		})
 	} catch(err) {
+        console.log('err', err)
 		next(err)
     }
 })
