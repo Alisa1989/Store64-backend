@@ -1,4 +1,6 @@
 .env
 .env.test
 
+package-lock.json
+
 store64.db3
