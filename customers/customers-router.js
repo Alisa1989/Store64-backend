@@ -29,7 +29,7 @@ router.post("/customers/login", async (req, res, next) => {
             firstName: customer.firstName
     }, process.env.JWT_SECRET)
 
-    console.log('token', token)
+    // console.log('token', token)
 
 		res.json({
             token: token,
@@ -41,16 +41,28 @@ router.post("/customers/login", async (req, res, next) => {
     }
 })
 
-router.get("/customers/logout", async (req, res, next) => {
+router.get("/customers/logout", async (req, res, next) => { 
+    console.log("req.session", req.session)
 	try {
 		// deletes the session on the server-side, so the customer is no longer authenticated
-		req.session.destroy((err) => {
+        req.session.destroy((err) => {
 			if (err) {
 				next(err)
 			} else {
-				res.status(200).json("user succesfully logged out")
-			}
+				res.status(200).json("user succesfully logged out dude");
+            }
 		})
+        req.session.user = null
+        req.session.save(function (err) {
+        if (err) next(err)
+
+        // regenerate the session, which is good practice to help
+        // guard against forms of session fixation
+        req.session.regenerate(function (err) {
+        if (err) next(err)
+        res.redirect('/')
+        })
+    })
 	} catch (err) {
 		next(err)
 	}
