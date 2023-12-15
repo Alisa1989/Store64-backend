@@ -48,6 +48,7 @@ router.get("/customers/logout", async (req, res, next) => {
 			if (err) {
 				next(err)
 			} else {
+                console.log("req.sesssion", req.session)
 				res.status(200).json("user succesfully logged out")
 			}
 		})
